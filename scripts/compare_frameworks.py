@@ -147,12 +147,12 @@ def main():
 
     if tf_results:
         print(f"{'Initialization Time':<25} | {pt_results['init_time_ms']} ms{'':<15} | {tf_results['init_time_ms']} ms")
-        print(f"{'Avg Inference (CPU)':<25} | {pt_results['avg_latency_ms']} ? {pt_results['std_latency_ms']} ms | {tf_results['avg_latency_ms']} ? {tf_results['std_latency_ms']} ms")
+        print(f"{'Avg Inference (CPU)':<25} | {pt_results['avg_latency_ms']} +/- {pt_results['std_latency_ms']} ms | {tf_results['avg_latency_ms']} +/- {tf_results['std_latency_ms']} ms")
         print(f"{'Embedding Dimension':<25} | {pt_results['output_dim']} dims{'':<13} | {tf_results['output_dim']} dims")
         print(f"{'Vector L2-Norm':<25} | {pt_results['l2_norm']}{'':<17} | {tf_results['l2_norm']}")
     else:
         print(f"{'Initialization Time':<25} | {pt_results['init_time_ms']} ms{'':<15} | N/A")
-        print(f"{'Avg Inference (CPU)':<25} | {pt_results['avg_latency_ms']} ? {pt_results['std_latency_ms']} ms | N/A")
+        print(f"{'Avg Inference (CPU)':<25} | {pt_results['avg_latency_ms']} +/- {pt_results['std_latency_ms']} ms | N/A")
         print(f"{'Embedding Dimension':<25} | {pt_results['output_dim']} dims{'':<13} | N/A")
 
     print("=" * 75)

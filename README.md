@@ -1,6 +1,6 @@
 # Visual Product Matcher for Home-Design Catalogs
 
-A lightweight visual search service that retrieves visually similar furniture and home-decor products from a catalog based on an uploaded image. Built with PyTorch, OpenCV, Pillow, FastAPI, and PostgreSQL with the `pgvector` extension.
+A lightweight visual search service that retrieves visually similar furniture and home-decor products from a catalog based on an uploaded image. Built with PyTorch, OpenCV, Pillow, FastAPI, and PostgreSQL with the pgvector extension.
 
 ---
 
@@ -10,7 +10,7 @@ In home design and e-commerce platforms, text-based search often struggles with 
 1. Accepts an uploaded product image via a REST API.
 2. Validates and preprocesses the image using Pillow and OpenCV.
 3. Extracts a 512-dimensional visual feature embedding using a pretrained PyTorch ResNet-18 model.
-4. Performs an approximate nearest neighbor (ANN) search using cosine distance in PostgreSQL via `pgvector`.
+4. Performs an approximate nearest neighbor (ANN) search using cosine distance in PostgreSQL via pgvector.
 5. Returns ranked matching products with metadata and similarity scores.
 
 ---
@@ -21,14 +21,14 @@ Home-design catalogs contain items where visual appearance (color palette, shape
 - Traditional text search requires exact keyword matches or extensive manual tagging.
 - Maintaining separate dedicated vector databases introduces operational complexity, data synchronization lag, and extra infrastructure costs for small-to-medium catalogs.
 
-This project solves this by combining relational product metadata and high-dimensional image embeddings in a single PostgreSQL database using `pgvector`, providing fast, filtered visual matching through a REST API.
+This project solves this by combining relational product metadata and high-dimensional image embeddings in a single PostgreSQL database using pgvector, providing fast, filtered visual matching through a REST API.
 
 ---
 
 ## Key Features
 
-- **Visual Similarity Search**: Upload an image to find the top-$K$ visually similar furniture items in the catalog.
-- **Category Filtering**: Combine visual search with SQL category filters (e.g., search only within `sofa` or `chair`).
+- **Visual Similarity Search**: Upload an image to find the top-K visually similar furniture items in the catalog.
+- **Category Filtering**: Combine visual search with SQL category filters (e.g., search only within sofa or chair).
 - **Input Validation & Safety**: Validates file format (JPEG, PNG, WebP), byte integrity, and limits file upload size (default: 5 MB).
 - **Aspect-Ratio Preserving Preprocessing**: Uses OpenCV letterboxing with neutral gray padding to prevent object distortion during resizing.
 - **L2-Normalized Embeddings**: Ensures unit-length feature vectors so that cosine similarity aligns with dot-product distance.
@@ -44,14 +44,14 @@ This project solves this by combining relational product metadata and high-dimen
 | :--- | :--- | :--- |
 | **Language** | Python 3.10+ | Core application and script development |
 | **Web Framework** | FastAPI | REST API endpoints, request validation, and OpenAPI documentation |
-| **Vision Backbone** | PyTorch & TorchVision | Pretrained ResNet-18 feature extraction (512-dimensional embeddings) |
+| **Vision Backbone** | PyTorch and TorchVision | Pretrained ResNet-18 feature extraction (512-dimensional embeddings) |
 | **Image Preprocessing** | OpenCV (`cv2`) | Aspect-ratio letterboxing, resizing, and array transformations |
 | **Image Handling** | Pillow (`PIL`) | Image decoding, format verification, and EXIF orientation correction |
 | **Database** | PostgreSQL 16 | Relational product metadata storage |
 | **Vector Search** | pgvector | Vector data type, HNSW indexing, and cosine distance (`<=>`) operator |
 | **ORM** | SQLAlchemy | Database schema mapping and query construction |
-| **Testing** | pytest & HTTPX | Automated unit and integration testing |
-| **Containerization** | Docker & Docker Compose | Local PostgreSQL + pgvector environment setup |
+| **Testing** | pytest and HTTPX | Automated unit and integration testing |
+| **Containerization** | Docker and Docker Compose | Local PostgreSQL + pgvector environment setup |
 
 ---
 
@@ -61,20 +61,20 @@ The system follows a synchronous request-response flow:
 
 ```
 User / Client
-     ?
-     ? (Uploads image: JPEG/PNG/WebP, max 5MB)
-FastAPI Endpoint (`POST /search`)
-     ?
-     ? (Raw bytes)
-Preprocessing Pipeline (Pillow: validation & EXIF ? OpenCV: letterbox to 224x224 & normalization)
-     ?
-     ? (Preprocessed Tensor: [1, 3, 224, 224])
-PyTorch Model (Pretrained ResNet-18 ? 512-dim L2-normalized vector)
-     ?
-     ? (512-dim embedding vector)
-PostgreSQL + pgvector (HNSW index query using `<=>` cosine distance)
-     ?
-     ? (Ranked product records + distances)
+     |
+     v (Uploads image: JPEG/PNG/WebP, max 5MB)
+FastAPI Endpoint (POST /search)
+     |
+     v (Raw bytes)
+Preprocessing Pipeline (Pillow: validation and EXIF -> OpenCV: letterbox to 224x224 and normalization)
+     |
+     v (Preprocessed Tensor: [1, 3, 224, 224])
+PyTorch Model (Pretrained ResNet-18 -> 512-dim L2-normalized vector)
+     |
+     v (512-dim embedding vector)
+PostgreSQL + pgvector (HNSW index query using <=> cosine distance)
+     |
+     v (Ranked product records + distances)
 JSON Response (Product metadata + similarity scores)
 ```
 
@@ -92,14 +92,14 @@ JSON Response (Product metadata + similarity scores)
 - **Format & Byte Verification**: Pillow opens and verifies file headers, rejecting non-image binaries or corrupted payloads.
 - **EXIF Transposition**: Corrects image orientation for photos taken on mobile devices.
 - **Channel Normalization**: Converts RGBA, grayscale, or CMYK images to standard 3-channel RGB.
-- **Letterbox Resizing**: Uses OpenCV to resize the image to fit within a $224 	imes 224$ canvas while preserving the original aspect ratio, filling remaining space with neutral gray (`(128, 128, 128)`). This avoids artificial stretching of furniture silhouettes.
-- **Standardization**: Scales pixel values to $[0.0, 1.0]$ and standardizes using ImageNet mean (`[0.485, 0.456, 0.406]`) and standard deviation (`[0.229, 0.224, 0.225]`).
+- **Letterbox Resizing**: Uses OpenCV to resize the image to fit within a 224x224 canvas while preserving the original aspect ratio, filling remaining space with neutral gray (`(128, 128, 128)`). This avoids artificial stretching of furniture silhouettes.
+- **Standardization**: Scales pixel values to `[0.0, 1.0]` and standardizes using ImageNet mean (`[0.485, 0.456, 0.406]`) and standard deviation (`[0.229, 0.224, 0.225]`).
 
 ### 3. Feature Engineering & Model Architecture (`app/core/vision_model.py`)
 - **Model Backbone**: Pretrained ResNet-18 convolutional neural network.
 - **Feature Extraction**: The final classification layer (`model.fc`) is replaced with `nn.Identity()`.
-- **Embedding Generation**: Passing a $(1, 3, 224, 224)$ tensor through the network yields a 512-dimensional dense feature vector.
-- **L2 Normalization**: Vectors are divided by their Euclidean norm ($\|v\|_2 = 1.0$).
+- **Embedding Generation**: Passing a `(1, 3, 224, 224)` tensor through the network yields a 512-dimensional dense feature vector.
+- **L2 Normalization**: Vectors are divided by their Euclidean norm (unit-norm, `||v|| = 1.0`).
 - **Inference Mode**: Inference is executed under `torch.no_grad()` to prevent memory allocation for autograd computation graphs.
 
 ### 4. Training vs. Pretrained Inference
@@ -107,7 +107,7 @@ JSON Response (Product metadata + similarity scores)
 
 ### 5. Framework Comparison Experiment (`scripts/compare_frameworks.py`)
 To evaluate framework characteristics, a benchmark script compares PyTorch ResNet-18 against TensorFlow/Keras MobileNetV2:
-- **PyTorch (ResNet-18)**: Produces 512-dimensional embeddings, resulting in smaller index sizes in `pgvector` and average CPU inference latency of ~40 ms.
+- **PyTorch (ResNet-18)**: Produces 512-dimensional embeddings, resulting in smaller index sizes in pgvector and average CPU inference latency of ~40 ms.
 - **TensorFlow (MobileNetV2)**: Produces 1280-dimensional embeddings with average CPU inference latency of ~50 ms.
 - **Conclusion**: PyTorch ResNet-18 was selected for the primary API due to the compact embedding size (saving memory in pgvector HNSW graphs) and low runtime overhead.
 
@@ -117,45 +117,45 @@ To evaluate framework characteristics, a benchmark script compares PyTorch ResNe
 
 ```
 Visual-Product-Matcher-for-Home-Design-Catalogs/
-??? app/
-?   ??? __init__.py
-?   ??? main.py                     # FastAPI app factory, CORS, exception handlers
-?   ??? config.py                   # Pydantic Settings and environment configuration
-?   ??? api/
-?   ?   ??? __init__.py
-?   ?   ??? routes.py               # API endpoint implementations
-?   ??? core/
-?   ?   ??? __init__.py
-?   ?   ??? preprocessor.py         # Pillow + OpenCV image preprocessing
-?   ?   ??? vision_model.py         # PyTorch feature extractor
-?   ??? db/
-?   ?   ??? __init__.py
-?   ?   ??? session.py              # Database connection and session lifecycle
-?   ?   ??? models.py               # SQLAlchemy Product model with Vector(512)
-?   ??? schemas/
-?       ??? __init__.py
-?       ??? product.py              # Pydantic request and response schemas
-??? data/
-?   ??? catalog_seed.json           # Catalog seed data with product metadata
-?   ??? sample_images/              # Generated sample images for catalog items
-??? docker/
-?   ??? docker-compose.yml          # PostgreSQL 16 + pgvector container definition
-??? scripts/
-?   ??? generate_sample_images.py   # Generates sample images for catalog items
-?   ??? seed_catalog.py             # Seeds PostgreSQL database and computes embeddings
-?   ??? compare_frameworks.py       # Benchmark comparing PyTorch and TensorFlow
-??? sql/
-?   ??? schema.sql                  # PostgreSQL table creation and HNSW index DDL
-??? tests/
-?   ??? __init__.py
-?   ??? conftest.py                 # Pytest fixtures, mock vision model, SQLite test DB
-?   ??? test_api.py                 # API integration tests
-?   ??? test_database.py            # Model and similarity math tests
-?   ??? test_vision.py              # Preprocessing and embedding unit tests
-??? .env.example                    # Example environment variables
-??? .gitignore                      # Git ignore file
-??? requirements.txt                # Python package dependencies
-??? README.md                       # Project documentation
+|-- app/
+|   |-- __init__.py
+|   |-- main.py                     # FastAPI app factory, CORS, exception handlers
+|   |-- config.py                   # Pydantic Settings and environment configuration
+|   |-- api/
+|   |   |-- __init__.py
+|   |   `-- routes.py               # API endpoint implementations
+|   |-- core/
+|   |   |-- __init__.py
+|   |   |-- preprocessor.py         # Pillow + OpenCV image preprocessing
+|   |   `-- vision_model.py         # PyTorch feature extractor
+|   |-- db/
+|   |   |-- __init__.py
+|   |   |-- session.py              # Database connection and session lifecycle
+|   |   `-- models.py               # SQLAlchemy Product model with Vector(512)
+|   `-- schemas/
+|       |-- __init__.py
+|       `-- product.py              # Pydantic request and response schemas
+|-- data/
+|   |-- catalog_seed.json           # Catalog seed data with product metadata
+|   `-- sample_images/              # Generated sample images for catalog items
+|-- docker/
+|   `-- docker-compose.yml          # PostgreSQL 16 + pgvector container definition
+|-- scripts/
+|   |-- generate_sample_images.py   # Generates sample images for catalog items
+|   |-- seed_catalog.py             # Seeds PostgreSQL database and computes embeddings
+|   `-- compare_frameworks.py       # Benchmark comparing PyTorch and TensorFlow
+|-- sql/
+|   `-- schema.sql                  # PostgreSQL table creation and HNSW index DDL
+|-- tests/
+|   |-- __init__.py
+|   |-- conftest.py                 # Pytest fixtures, mock vision model, SQLite test DB
+|   |-- test_api.py                 # API integration tests
+|   |-- test_database.py            # Model and similarity math tests
+|   `-- test_vision.py              # Preprocessing and embedding unit tests
+|-- .env.example                    # Example environment variables
+|-- .gitignore                      # Git ignore file
+|-- requirements.txt                # Python package dependencies
+`-- README.md                       # Project documentation
 ```
 
 ---
@@ -164,7 +164,7 @@ Visual-Product-Matcher-for-Home-Design-Catalogs/
 
 ### Prerequisites
 - Python 3.10+
-- Docker & Docker Compose (or a local PostgreSQL instance with `pgvector`)
+- Docker and Docker Compose (or a local PostgreSQL instance with pgvector)
 - Git
 
 ### 1. Clone the Repository
@@ -262,8 +262,8 @@ ON products (category);
 
 ### Why HNSW Indexing?
 - **Graph-Based Navigation**: HNSW constructs a multi-layer graph where upper layers contain long-range connections and lower layers contain fine connections.
-- **Logarithmic Complexity**: Enables approximate nearest neighbor search in $O(\log N)$ time complexity.
-- **Cosine Distance (`<=>`)**: For unit-normalized vectors, cosine distance is computed as $1.0 - 	ext{cosine similarity}$.
+- **Logarithmic Complexity**: Enables approximate nearest neighbor search in O(log N) time complexity.
+- **Cosine Distance (`<=>`)**: For unit-normalized vectors, cosine distance is computed as `1.0 - cosine_similarity`.
 
 ---
 
@@ -292,7 +292,7 @@ pytest -v
   - `POST /search` visual search response formatting.
   - 400 Bad Request on unsupported file extensions (`.txt`).
   - 400 Bad Request on corrupted image bytes.
-  - 413 Content Too Large on files $> 5	ext{ MB}$.
+  - 413 Content Too Large on files > 5 MB.
   - 422 Unprocessable Entity when file parameter is missing.
 
 ---
@@ -372,7 +372,7 @@ curl -X GET "http://localhost:8000/health"
 
 1. **Dual-Library Image Preprocessing**: Learned how combining Pillow (for robust byte decoding and EXIF correction) and OpenCV (for high-performance letterboxing and normalization) prevents common visual distortion bugs in computer vision pipelines.
 2. **Feature Extraction Mechanics**: Learned how to strip classification heads (`fc = nn.Identity()`) from standard convolutional backbones to obtain compact, generalizable visual embeddings.
-3. **Vector Database Integration**: Gained hands-on experience using PostgreSQL with `pgvector`, understanding the performance and operational trade-offs between HNSW and IVFFlat index types, and querying with the `<=>` cosine distance operator.
+3. **Vector Database Integration**: Gained hands-on experience using PostgreSQL with pgvector, understanding the performance and operational trade-offs between HNSW and IVFFlat index types, and querying with the `<=>` cosine distance operator.
 4. **API Safety & Error Handling**: Implemented boundary guards including file-type checking, upload size enforcement, and structured error responses.
 5. **Effective Test Isolation**: Configured test fixtures using in-memory SQLite and mock models to ensure fast, deterministic testing without external dependencies.
 
