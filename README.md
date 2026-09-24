@@ -389,6 +389,6 @@ curl -X GET "http://localhost:8000/health"
 
 ## Author
 
-- **Harsha Raju**
+- **Harshavardhan Varma**
 - **GitHub**: [harsharaju1314-hash](https://github.com/harsharaju1314-hash)
 - **Project Repository**: [Visual-Product-Matcher-for-Home-Design-Catalogs](https://github.com/harsharaju1314-hash/Visual-Product-Matcher-for-Home-Design-Catalogs)
