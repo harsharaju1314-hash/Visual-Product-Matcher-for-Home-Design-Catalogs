@@ -1,0 +1,167 @@
+[
+  {
+    "name": "Velvet Scandinavian 3-Seater Sofa - Forest Green",
+    "category": "sofa",
+    "brand": "Nordic Living",
+    "price": 899.0,
+    "dimensions": "84W x 36D x 34H in",
+    "material": "Velvet & Solid Ash Wood",
+    "color": "Forest Green",
+    "image_url": "data/sample_images/sofa_green.jpg",
+    "description": "Luxurious 3-seater sofa with deep tufted cushioning and tapered wooden legs."
+  },
+  {
+    "name": "Minimalist Fabric Loveseat - Light Gray",
+    "category": "sofa",
+    "brand": "Aesthetic Studio",
+    "price": 649.5,
+    "dimensions": "62W x 34D x 32H in",
+    "material": "Linen Blend & Steel",
+    "color": "Light Gray",
+    "image_url": "data/sample_images/sofa_gray.jpg",
+    "description": "Compact, comfortable 2-seater couch ideal for modern apartments."
+  },
+  {
+    "name": "Chesterfield Leather Tufted Sofa - Cognac Brown",
+    "category": "sofa",
+    "brand": "Heritage Craft",
+    "price": 1499.0,
+    "dimensions": "90W x 38D x 31H in",
+    "material": "Top-Grain Italian Leather",
+    "color": "Cognac Brown",
+    "image_url": "data/sample_images/sofa_brown.jpg",
+    "description": "Classic rolled-arm Chesterfield sofa with button tufting and brass nailhead trim."
+  },
+  {
+    "name": "Mid-Century Modern Accent Lounge Chair - Mustard Yellow",
+    "category": "chair",
+    "brand": "Moderna",
+    "price": 279.0,
+    "dimensions": "30W x 31D x 33H in",
+    "material": "Textured Tweed & Walnut",
+    "color": "Mustard Yellow",
+    "image_url": "data/sample_images/chair_yellow.jpg",
+    "description": "Iconic angled wooden frame lounge chair with vibrant mustard fabric."
+  },
+  {
+    "name": "Solid Oak Dining Chair - Natural Finish",
+    "category": "chair",
+    "brand": "Nordic Living",
+    "price": 160.0,
+    "dimensions": "19W x 21D x 32H in",
+    "material": "Solid White Oak",
+    "color": "Natural Oak",
+    "image_url": "data/sample_images/chair_oak.jpg",
+    "description": "Sleek curved-back dining chair crafted from sustainable European oak."
+  },
+  {
+    "name": "Industrial Swivel Bar Stool - Matte Black & Wood",
+    "category": "chair",
+    "brand": "Urban Forge",
+    "price": 129.99,
+    "dimensions": "18W x 18D x 30H in",
+    "material": "Cast Iron & Reclaimed Pine",
+    "color": "Matte Black",
+    "image_url": "data/sample_images/chair_stool.jpg",
+    "description": "Heavy-duty kitchen island bar stool with 360-degree swivel mechanism."
+  },
+  {
+    "name": "Extendable Solid Walnut Dining Table - Dark Walnut",
+    "category": "table",
+    "brand": "Heritage Craft",
+    "price": 1199.0,
+    "dimensions": "72-96W x 38D x 30H in",
+    "material": "American Walnut",
+    "color": "Dark Walnut",
+    "image_url": "data/sample_images/table_walnut.jpg",
+    "description": "Handcrafted expandable dining table seating 6 to 10 guests."
+  },
+  {
+    "name": "Round Marble Top Coffee Table - White Marble & Gold",
+    "category": "table",
+    "brand": "Luxe Home",
+    "price": 389.0,
+    "dimensions": "36W x 36D x 18H in",
+    "material": "Carrara Marble & Brass",
+    "color": "White / Gold",
+    "image_url": "data/sample_images/table_marble.jpg",
+    "description": "Contemporary circular coffee table with polished stone and geometric metal base."
+  },
+  {
+    "name": "Minimalist Work Desk with Drawers - White Oak",
+    "category": "table",
+    "brand": "Aesthetic Studio",
+    "price": 420.0,
+    "dimensions": "54W x 26D x 30H in",
+    "material": "Oak Veneer & Powder-Coated Steel",
+    "color": "Light Natural",
+    "image_url": "data/sample_images/table_desk.jpg",
+    "description": "Clean home-office workstation with integrated cable management slot."
+  },
+  {
+    "name": "Upholstered Queen Platform Bed - Charcoal Gray",
+    "category": "bed",
+    "brand": "Moderna",
+    "price": 799.0,
+    "dimensions": "65W x 86D x 48H in",
+    "material": "Linen Upholstery & Pine Slats",
+    "color": "Charcoal Gray",
+    "image_url": "data/sample_images/bed_charcoal.jpg",
+    "description": "Low-profile queen bed frame with vertical channel-stitched headboard."
+  },
+  {
+    "name": "Japanese Minimalist Low Platform Bed - Natural Ash",
+    "category": "bed",
+    "brand": "Zenith Living",
+    "price": 899.0,
+    "dimensions": "68W x 88D x 12H in",
+    "material": "Solid Ash Wood",
+    "color": "Natural Blonde",
+    "image_url": "data/sample_images/bed_zen.jpg",
+    "description": "Tatami-compatible low wooden platform bed frame designed for serene bedrooms."
+  },
+  {
+    "name": "Mid-Century Modern Credenza Sideboard - Teak",
+    "category": "cabinet",
+    "brand": "Heritage Craft",
+    "price": 950.0,
+    "dimensions": "64W x 18D x 32H in",
+    "material": "Teak Wood & Brass Knobs",
+    "color": "Warm Teak",
+    "image_url": "data/sample_images/cabinet_teak.jpg",
+    "description": "Multi-compartment storage sideboard with sliding slatted wooden doors."
+  },
+  {
+    "name": "Boho Rattan 2-Door Storage Cabinet - Natural Oak",
+    "category": "cabinet",
+    "brand": "Aesthetic Studio",
+    "price": 349.0,
+    "dimensions": "32W x 16D x 36H in",
+    "material": "Woven Cane & Solid Oak",
+    "color": "Natural Cane",
+    "image_url": "data/sample_images/cabinet_rattan.jpg",
+    "description": "Artisan cabinet featuring natural cane webbing panels on front doors."
+  },
+  {
+    "name": "Curved Brass Arc Floor Lamp with Marble Base - Brushed Gold",
+    "category": "lamp",
+    "brand": "Luxe Home",
+    "price": 219.0,
+    "dimensions": "16W x 42D x 78H in",
+    "material": "Brushed Brass & Heavy Marble",
+    "color": "Brushed Gold",
+    "image_url": "data/sample_images/lamp_arc.jpg",
+    "description": "Overarching floor lamp providing ambient lighting over couches and reading nooks."
+  },
+  {
+    "name": "Nordic Matte Black Geometric Pendant Light",
+    "category": "lamp",
+    "brand": "Nordic Living",
+    "price": 99.0,
+    "dimensions": "14W x 14D x 16H in",
+    "material": "Spun Aluminum & Braided Cord",
+    "color": "Matte Black",
+    "image_url": "data/sample_images/lamp_pendant.jpg",
+    "description": "Architectural dining room pendant chandelier with dimmable warm LED support."
+  }
+]
